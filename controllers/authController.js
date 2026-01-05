@@ -88,7 +88,7 @@ exports.login = async (req, res) => {
 exports.getProfile = async (req, res) => {
   try {
     const user = await db.query(
-      'SELECT id, username, fullname, email, avatar FROM users WHERE id = $1',
+      'SELECT id, username, fullname, email FROM users WHERE id = $1',
       [req.user.id],
     )
     if (user.rows.length === 0) {
@@ -113,7 +113,6 @@ exports.getProfile = async (req, res) => {
 
 exports.updateProfile = async (req, res) => {
   const { username, fullname, email } = req.body
-  const avatarPath = req.file ? `/uploads/${req.file.filename}` : null
 
   try {
     const fields = []
@@ -132,14 +131,10 @@ exports.updateProfile = async (req, res) => {
       fields.push(`email = $${counter++}`)
       params.push(email)
     }
-    if (avatarPath) {
-      fields.push(`avatar = $${counter++}`)
-      params.push(avatarPath)
-    }
 
     if (fields.length === 0) {
       const user = await db.query(
-        'SELECT id, username, fullname, email, avatar FROM users WHERE id = $1',
+        'SELECT id, username, fullname, email FROM users WHERE id = $1',
         [req.user.id],
       )
       return res.json({
@@ -150,10 +145,10 @@ exports.updateProfile = async (req, res) => {
     }
 
     params.push(req.user.id)
-    const query = `UPDATE users SET ${fields.join(', ')} WHERE id = $${counter} RETURNING id, username, fullname, email, avatar`
+    const query = `UPDATE users SET ${fields.join(', ')} WHERE id = $${counter} RETURNING id, username, fullname, email`
 
     const updated = await db.query(query, params)
-    
+
     if (updated.rows.length === 0) {
       return res.status(404).json({
         status: 'error',

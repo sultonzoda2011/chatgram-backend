@@ -9,19 +9,9 @@ dotenv.config()
 
 const app = express()
 
-// Create uploads directory if it doesn't exist
-const fs = require('fs')
-const uploadsDir = path.join(process.cwd(), 'uploads')
-if (!fs.existsSync(uploadsDir)) {
-  fs.mkdirSync(uploadsDir, { recursive: true })
-}
-
 // Middleware
 app.use(cors())
 app.use(express.json())
-
-// Serve static files from the uploads directory
-app.use('/uploads', express.static(path.join(process.cwd(), 'uploads')))
 
 // Swagger UI custom HTML to avoid Vercel asset issues
 const swaggerHtml = `

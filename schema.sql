@@ -4,8 +4,7 @@ CREATE TABLE IF NOT EXISTS users (
     username VARCHAR(50) UNIQUE NOT NULL,
     fullname VARCHAR(100) NOT NULL,
     email VARCHAR(100) UNIQUE NOT NULL,
-    password_hash VARCHAR(255) NOT NULL,
-    avatar VARCHAR(255)
+    password_hash VARCHAR(255) NOT NULL
 );
 
 -- Create Messages table

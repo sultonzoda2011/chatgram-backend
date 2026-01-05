@@ -8,8 +8,8 @@ const notifyPending = (msg) => {
 
     toNotify.forEach(p => {
         const isMatch = (p.currentUserId === msg.to_user_id && (p.otherUserId == msg.from_user_id || !p.otherUserId)) ||
-                        (p.currentUserId === msg.from_user_id && p.otherUserId == msg.to_user_id);
-        
+            (p.currentUserId === msg.from_user_id && p.otherUserId == msg.to_user_id);
+
         if (isMatch && !p.res.headersSent) {
             p.res.json({
                 status: 'success',
@@ -108,7 +108,7 @@ exports.getChats = async (req, res) => {
         const query = `
             SELECT * FROM (
                 SELECT DISTINCT ON (u.id) 
-                    u.id, u.username, u.fullname, u.avatar,
+                    u.id, u.username, u.fullname,
                     m.content as last_message,
                     m.timestamp as date
                 FROM users u

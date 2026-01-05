@@ -4,24 +4,7 @@ const { check } = require('express-validator')
 const validate = require('../middleware/validate')
 const auth = require('../middleware/auth')
 const authController = require('../controllers/authController')
-const multer = require('multer')
-const path = require('path')
-
-// Multer config for avatars
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => cb(null, 'uploads/'),
-  filename: (req, file, cb) => cb(null, `${Date.now()}-${file.originalname}`),
-})
-const upload = multer({
-  storage,
-  fileFilter: (req, file, cb) => {
-    const filetypes = /jpeg|jpg|png/
-    const mimetype = filetypes.test(file.mimetype)
-    const extname = filetypes.test(path.extname(file.originalname).toLowerCase())
-    if (mimetype && extname) return cb(null, true)
-    cb(new Error('File upload only supports jpeg, jpg, png'))
-  },
-})
+// Auth routes without file uploads
 
 /**
  * @swagger
@@ -124,7 +107,6 @@ router.get('/profile', auth, authController.getProfile)
 router.post(
   '/profile/update',
   auth,
-  upload.single('avatar'),
   [
     check('username', 'Username cannot be empty').optional().not().isEmpty(),
     check('fullname', 'Fullname cannot be empty').optional().not().isEmpty(),
