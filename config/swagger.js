@@ -30,7 +30,6 @@ const options = {
             username: { type: 'string' },
             fullname: { type: 'string' },
             email: { type: 'string', format: 'email' },
-            avatar: { type: 'string', nullable: true },
           },
         },
         Message: {

@@ -93,14 +93,13 @@ router.get('/profile', auth, authController.getProfile)
  *     security: [{ bearerAuth: [] }]
  *     requestBody:
  *       content:
- *         multipart/form-data:
+ *         application/json:
  *           schema:
  *             type: object
  *             properties:
  *               username: { type: string }
  *               fullname: { type: string }
  *               email: { type: string }
- *               avatar: { type: string, format: binary }
  *     responses:
  *       200: { description: Success }
  */
