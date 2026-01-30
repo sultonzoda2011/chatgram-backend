@@ -80,3 +80,10 @@ app.use((err, req, res, next) => {
 // Export tho`Serverless handler
 module.exports = app
 module.exports.handler = serverless(app)
+
+if (require.main === module) {
+  const PORT = process.env.PORT || 5000
+  app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`)
+  })
+}
